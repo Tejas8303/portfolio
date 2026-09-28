@@ -7,6 +7,7 @@ import {
   Server, 
   Cloud, 
   Database, 
+  Wrench,
   Sparkles, 
   Cpu
 } from "lucide-react";
@@ -18,7 +19,7 @@ export function SkillsSection() {
   const [activeTab, setActiveTab] = useState<number>(0);
   const { playClick } = useSoundEffects();
 
-  const CATEGORY_ICONS = [Code2, Cloud, Server, Database];
+  const CATEGORY_ICONS = [Code2, Cloud, Server, Database, Wrench];
 
   return (
     <section id="skills" className="py-24 px-4 sm:px-6 lg:px-8 relative z-10 max-w-7xl mx-auto">

@@ -86,7 +86,7 @@ export const TERMINAL_COMMANDS: Record<string, (args: string[]) => CommandOutput
 
   codeforces: () => ({
     type: "text",
-    content: `Codeforces Specialist\nMax Rating: 1638\n400+ Algorithmic Problems Solved across platforms.\nGlobal Round 30 Rank: 1151st | Round 934 Rank: 1216th`,
+    content: `Codeforces Specialist\nMax Rating: 1638\n400+ Algorithmic Problems Solved across platforms (LeetCode, GFG, CodingNinjas).\nGlobal Round 30 Rank: 1151st | Round 934 Rank: 1216th\nJEE Mains 2022: 94.59 %ile (AIR 48,505)`,
   }),
 
   sudo: () => ({

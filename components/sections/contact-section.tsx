@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion } from "framer-motion";
-import { Mail, Send, CheckCircle2, AlertCircle, Sparkles, MapPin } from "lucide-react";
+import { Mail, Send, CheckCircle2, AlertCircle, Sparkles, MapPin, Phone } from "lucide-react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/icons";
 import { PORTFOLIO_DATA } from "@/constants/portfolio";
 import { useSoundEffects } from "@/hooks/use-sound-effects";
@@ -39,6 +39,22 @@ export function ContactSection() {
     playClick();
 
     try {
+      // First attempt: internal API route (prevents adblocker interference)
+      const internalRes = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (internalRes.ok) {
+        setIsSubmitted(true);
+        playSuccess();
+        reset();
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Second attempt: direct FormSubmit
       const params = new URLSearchParams();
       params.append("name", data.name);
       params.append("email", data.email);
@@ -135,6 +151,20 @@ export function ContactSection() {
                   <div>
                     <div className="text-xs text-slate-400 font-mono uppercase">Email Address</div>
                     <div className="text-sm font-bold text-white group-hover:text-cyan-300">{PORTFOLIO_DATA.personal.email}</div>
+                  </div>
+                </a>
+
+                <a
+                  href={`tel:${PORTFOLIO_DATA.personal.phone}`}
+                  onClick={playClick}
+                  className="flex items-center gap-4 p-4 rounded-2xl bg-white/[0.02] hover:bg-white/10 border border-white/10 transition-colors group"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 group-hover:scale-110 transition-transform">
+                    <Phone className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <div className="text-xs text-slate-400 font-mono uppercase">Phone</div>
+                    <div className="text-sm font-bold text-white group-hover:text-cyan-300">{PORTFOLIO_DATA.personal.phone}</div>
                   </div>
                 </a>
 

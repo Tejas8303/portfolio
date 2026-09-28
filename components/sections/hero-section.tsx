@@ -253,7 +253,7 @@ export function HeroSection() {
               </div>
               <div className="pl-4">
                 <span className="text-slate-400">codeforcesRating:</span>{" "}
-                <span className="text-blue-400">1409</span>;
+                <span className="text-blue-400">1638(maximum)</span>;
               </div>
               <div>&#125;</div>
 
