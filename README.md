@@ -18,7 +18,7 @@ A modern, production-ready developer portfolio built for **Tejas Kumar** (Softwa
 - **Competitive Milestones**: Codeforces Specialist (1638 max rating), 400+ solved problems across LeetCode, GFG, and CodingNinjas, Codeforces Global Round 30 rank 1151st, and JEE Mains 94.59 percentile (AIR 48,505).
 - **Lenis Smooth Scroll**: Smooth scroll physics with top progress indicator bar.
 - **Web Audio API Synth**: Subtle native browser sound synthesis for click/hover micro-interactions with mute control.
-- **Contact Form**: Built with React Hook Form, Zod schema validation, first-party `/api/contact` route, FormSubmit.co integration, and mailto fallback.
+- **Contact Form**: Built with React Hook Form, Zod schema validation, first-party `/api/contact` route, Web3Forms integration, and mailto fallback.
 - **SEO & OpenGraph**: Structured JSON-LD schema (Person / SoftwareEngineer), `sitemap.ts`, `robots.ts`, and dynamic OpenGraph metadata.
 
 ---

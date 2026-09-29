@@ -12,27 +12,33 @@ export async function POST(request: Request) {
       );
     }
 
-    // Send directly to Tejas's email via FormSubmit (No API Key Required!)
-    const response = await fetch("https://formsubmit.co/ajax/kumartejas063@gmail.com", {
+    const accessKey =
+      process.env.WEB3FORMS_ACCESS_KEY ||
+      process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ||
+      "fde2beae-7802-40ea-95fc-1e93aaf85433";
+
+    // Submit via Web3Forms with custom User-Agent to avoid Cloudflare challenge blocking serverless IPs
+    const response = await fetch("https://api.web3forms.com/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
+        "User-Agent": "Mozilla/5.0 (compatible; TejasPortfolio/1.0; +https://tejasportfolio-six.vercel.app)",
       },
       body: JSON.stringify({
+        access_key: accessKey,
         name,
         email,
         subject: `[Portfolio Inquiry] ${subject}`,
         message,
-        _subject: `New Portfolio Message from ${name}: ${subject}`,
-        _replyto: email,
-        _template: "table",
+        from_name: `${name} (via Portfolio Contact)`,
       }),
+      signal: AbortSignal.timeout(9000),
     });
 
     const result = await response.json();
 
-    if (response.ok || result.success === "true" || result.message?.includes("success")) {
+    if (response.ok && (result.success === true || result.success === "true")) {
       return NextResponse.json(
         { success: true, message: "Your message has been sent directly to Tejas's email." },
         { status: 200 }
@@ -40,15 +46,18 @@ export async function POST(request: Request) {
     } else {
       return NextResponse.json(
         { success: false, message: result.message || "Failed to send message." },
-        { status: 400 }
+        { status: response.status >= 400 ? response.status : 400 }
       );
     }
-  } catch {
+  } catch (err: unknown) {
+    const errorMsg = err instanceof Error ? err.message : "Internal Server Error";
+    console.error("Error sending contact email:", errorMsg);
     return NextResponse.json(
-      { error: "Internal Server Error" },
+      { error: "Internal Server Error", details: errorMsg },
       { status: 500 }
     );
   }
 }
+
 
 

@@ -54,29 +54,26 @@ export function ContactSection() {
         return;
       }
 
-      // Second attempt: direct FormSubmit
-      const params = new URLSearchParams();
-      params.append("name", data.name);
-      params.append("email", data.email);
-      params.append("subject", data.subject);
-      params.append("message", data.message);
-      params.append("_subject", `New Portfolio Contact from ${data.name}: ${data.subject}`);
-      params.append("_replyto", data.email);
-      params.append("_template", "table");
-      params.append("_captcha", "false");
-
-      const response = await fetch("https://formsubmit.co/ajax/kumartejas063@gmail.com", {
+      // Second attempt: direct client-side Web3Forms fallback (CORS enabled for any origin)
+      const directRes = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: params.toString(),
+        body: JSON.stringify({
+          access_key: "fde2beae-7802-40ea-95fc-1e93aaf85433",
+          name: data.name,
+          email: data.email,
+          subject: `[Portfolio Inquiry] ${data.subject}`,
+          message: data.message,
+          from_name: `${data.name} (via Client Direct)`,
+        }),
       });
 
-      const resData = await response.json();
+      const resData = await directRes.json();
 
-      if (response.ok || resData.success === "true" || resData.success === true || resData.message?.includes("Activation")) {
+      if (directRes.ok && (resData.success === true || resData.success === "true")) {
         setIsSubmitted(true);
         playSuccess();
         reset();
