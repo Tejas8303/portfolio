@@ -14,8 +14,15 @@ export async function POST(request: Request) {
 
     const accessKey =
       process.env.WEB3FORMS_ACCESS_KEY ||
-      process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY ||
-      "fde2beae-7802-40ea-95fc-1e93aaf85433";
+      process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+
+    if (!accessKey) {
+      console.error("WEB3FORMS_ACCESS_KEY is not configured");
+      return NextResponse.json(
+        { error: "Contact service is currently not configured" },
+        { status: 500 }
+      );
+    }
 
     // Submit via Web3Forms with custom User-Agent to avoid Cloudflare challenge blocking serverless IPs
     const response = await fetch("https://api.web3forms.com/submit", {

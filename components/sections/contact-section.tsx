@@ -47,7 +47,7 @@ export function ContactSection() {
           Accept: "application/json",
         },
         body: JSON.stringify({
-          access_key: "fde2beae-7802-40ea-95fc-1e93aaf85433",
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "",
           name: data.name,
           email: data.email,
           subject: `[Portfolio Inquiry] ${data.subject}`,
