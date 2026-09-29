@@ -45,14 +45,6 @@ export function TimelineSection() {
       icon: GraduationCap,
       color: "border-blue-500 text-blue-400 bg-blue-500/10 shadow-[0_0_15px_rgba(59,130,246,0.3)]",
     },
-    {
-      year: "July 2021",
-      title: "Senior Secondary (Class 12th) — 85%",
-      organization: "Saraswati Vidya Mandir Inter College Belrayan Kheri",
-      description: "Graduated with 85% aggregate and secured 94.59 percentile (AIR 48505) out of 9+ lakh candidates in JEE Mains 2022.",
-      icon: GraduationCap,
-      color: "border-indigo-500 text-indigo-400 bg-indigo-500/10 shadow-[0_0_15px_rgba(99,102,241,0.3)]",
-    },
   ];
 
   return (
