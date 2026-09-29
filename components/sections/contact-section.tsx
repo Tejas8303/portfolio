@@ -39,22 +39,7 @@ export function ContactSection() {
     playClick();
 
     try {
-      // First attempt: internal API route (prevents adblocker interference)
-      const internalRes = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      if (internalRes.ok) {
-        setIsSubmitted(true);
-        playSuccess();
-        reset();
-        setIsSubmitting(false);
-        return;
-      }
-
-      // Second attempt: direct client-side Web3Forms fallback (CORS enabled for any origin)
+      // Primary: Direct client-side Web3Forms submission (instant, CORS-enabled, no serverless timeout)
       const directRes = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: {
@@ -67,13 +52,28 @@ export function ContactSection() {
           email: data.email,
           subject: `[Portfolio Inquiry] ${data.subject}`,
           message: data.message,
-          from_name: `${data.name} (via Client Direct)`,
+          from_name: `${data.name} (via Portfolio Contact)`,
         }),
       });
 
       const resData = await directRes.json();
 
       if (directRes.ok && (resData.success === true || resData.success === "true")) {
+        setIsSubmitted(true);
+        playSuccess();
+        reset();
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Secondary fallback: internal API route (in case client adblockers block third-party APIs)
+      const internalRes = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (internalRes.ok) {
         setIsSubmitted(true);
         playSuccess();
         reset();
